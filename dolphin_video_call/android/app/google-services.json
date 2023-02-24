@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "127198302801",
+    "project_id": "dolphin-6d606",
+    "storage_bucket": "dolphin-6d606.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127198302801:android:2e0ccc50375a2d3fa81e70",
+        "android_client_info": {
+          "package_name": "com.example.dolphin_video_call"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "127198302801-d0ejmkbnmb7pg2u83n2bclg9jic82sdk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dolphin_video_call",
+            "certificate_hash": "358f09086f9802d1234f23ae8a4102e46fd01935"
+          }
+        },
+        {
+          "client_id": "127198302801-4qluj5lcic9ecc1s3g2kqggqkbqdvo9r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwx08wCnGQpN-IbRd0oC5-XBc2tm3_DMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "127198302801-4qluj5lcic9ecc1s3g2kqggqkbqdvo9r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

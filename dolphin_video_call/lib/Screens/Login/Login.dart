@@ -2,6 +2,7 @@ import 'package:dolphin_video_call/Helper/Colors..dart';
 import 'package:dolphin_video_call/Helper/CustomTextfield.dart';
 import 'package:dolphin_video_call/Helper/Shared.dart';
 import 'package:dolphin_video_call/Screens/Home/Home.dart';
+import 'package:dolphin_video_call/Screens/InternetCheck/InternetCheck.dart';
 import 'package:dolphin_video_call/Screens/Register/Register.dart';
 import 'package:dolphin_video_call/Screens/ResetPass/ResetPass.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,7 +25,20 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     // TODO: implement initState
+    checkConnection();
     super.initState();
+  }
+
+  bool? network;
+
+  checkConnection() async {
+    network = await internetCheck();
+    setState(() {});
+    if (network!) {
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("No internet connection!")));
+    }
   }
 
   TextEditingController emailcontroller = TextEditingController();
@@ -45,8 +59,11 @@ class _LoginState extends State<Login> {
         Get.to(Home());
       }
     }).onError((error, stackTrace) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Invalid email or password!")));
+      network!
+          ? ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Invalid email or password!")))
+          : ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("No internet connection!")));
     });
   }
 

@@ -1,8 +1,11 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dolphin_video_call/Helper/Colors..dart';
 import 'package:dolphin_video_call/Helper/Shared.dart';
 import 'package:dolphin_video_call/Screens/Account/Account.dart';
+import 'package:dolphin_video_call/Screens/InternetCheck/InternetCheck.dart';
+import 'package:dolphin_video_call/Screens/InternetCheck/NoConnection.dart';
 import 'package:dolphin_video_call/Screens/Login/Login.dart';
 import 'package:dolphin_video_call/Screens/Splash/Splash.dart';
 import 'package:dolphin_video_call/Screens/VideoChatScreen.dart';
@@ -31,10 +34,24 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     // TODO: implement initState
-
+    checkConnection();
     getUserData();
 
     super.initState();
+  }
+
+  bool? network;
+  checkConnection() async {
+    network = await internetCheck();
+    setState(() {});
+    if (network!) {
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("No internet connection!")));
+      Timer(Duration(seconds: 3), () {
+        Get.to(NoConnection());
+      });
+    }
   }
 
   bool ontap = false;
@@ -403,9 +420,14 @@ class _HomeState extends State<Home> {
                       children: [
                         InkWell(
                           onTap: () {
-                            setState(() {
-                              ontap = true;
-                            });
+                            network!
+                                ? setState(() {
+                                    ontap = true;
+                                  })
+                                : ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content:
+                                            Text("No internet connection!")));
                           },
                           child: Container(
                               width: 200,
@@ -421,5 +443,50 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  errorWidget() {
+    Size size = MediaQuery.of(context).size;
+    return Sizer(
+        builder: (context, orientation, deviceType) => Scaffold(
+              backgroundColor: bgcolor,
+              body: SizedBox(
+                width: size.width,
+                height: size.height,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "ooops!",
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "NoConnection!",
+                      style:
+                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {});
+                      },
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        color: Colors.black,
+                        child: Center(
+                            child: Text(
+                          "Retry",
+                          style: TextStyle(color: Colors.white),
+                        )),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ));
   }
 }

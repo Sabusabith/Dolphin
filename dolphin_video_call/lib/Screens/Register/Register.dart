@@ -3,6 +3,7 @@
 import 'package:dolphin_video_call/Helper/Colors..dart';
 import 'package:dolphin_video_call/Helper/CustomTextfield.dart';
 import 'package:dolphin_video_call/Helper/Shared.dart';
+import 'package:dolphin_video_call/Screens/InternetCheck/InternetCheck.dart';
 import 'package:dolphin_video_call/Screens/Login/Login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/animation.dart';
@@ -26,8 +27,24 @@ class _RegisterState extends State<Register> {
   TextEditingController email = TextEditingController();
 
   TextEditingController password = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    checkConnection();
+    super.initState();
+  }
 
+  bool? network;
   String name = "";
+  checkConnection() async {
+    network = await internetCheck();
+    setState(() {});
+    if (network!) {
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("No internet connection!")));
+    }
+  }
 
   firebaseRegister() async {
     await FirebaseAuth.instance
@@ -43,8 +60,11 @@ class _RegisterState extends State<Register> {
         Get.to(Login());
       }
     }).onError((error, stackTrace) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Something wrong try again")));
+      network!
+          ? ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Something wrong try again")))
+          : ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("No internet connection!")));
     });
   }
 

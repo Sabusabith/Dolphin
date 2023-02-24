@@ -43,6 +43,7 @@ dependencies:
   cloud_firestore: ^4.4.3
   shared_preferences: ^2.0.18
   zego_uikit_prebuilt_call: ^2.0.0
+  connectivity_plus: ^3.0.3
   
   
 
